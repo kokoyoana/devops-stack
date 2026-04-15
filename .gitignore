@@ -1,0 +1,27 @@
+# Ignorar toda la carpeta de GitLab
+data/
+
+# Ignorar logs
+logs/
+*/logs/
+
+# Ignorar archivos temporales
+tmp/
+*/tmp/
+
+# Ignorar sockets y pids
+*.sock
+*.pid
+
+# Ignorar secretos
+*.json
+*.key
+*.pem
+*.crt
+
+# Ignorar Docker volumes
+volumes/
+*/volumes/
+
+# Ignorar archivos de sistema
+.DS_Store

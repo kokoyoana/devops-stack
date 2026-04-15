@@ -1,0 +1,40 @@
+services:
+
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    hostname: gitlab.local
+    ports:
+      - "8929:80"
+      - "2224:22"
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://localhost:8929'
+    volumes:
+      - ./data/gitlab/config:/etc/gitlab
+      - ./data/gitlab/logs:/var/log/gitlab
+      - ./data/gitlab/data:/var/opt/gitlab
+    shm_size: "256m"
+    restart: unless-stopped
+
+  jenkins:
+    image: jenkins/jenkins:lts
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - ./data/jenkins:/var/jenkins_home
+    environment:
+      JAVA_OPTS: "-Xmx1024m"
+    restart: unless-stopped
+
+  sonarqube:
+    image: sonarqube:lts
+    ports:
+      - "9000:9000"
+    environment:
+      SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
+      SONAR_JAVA_OPTS: "-Xms512m -Xmx1024m"
+    volumes:
+      - ./data/sonar/data:/opt/sonarqube/data
+      - ./data/sonar/extensions:/opt/sonarqube/extensions
+    restart: unless-stopped
